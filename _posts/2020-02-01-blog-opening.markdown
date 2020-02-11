@@ -5,7 +5,7 @@ date: 2020-02-01 11:44:02 +0100
 categories: news
 ---
 
-> Hi! My name is Steve Gigou and I am very glad you are reading this.
+Hi! My name is Steve Gigou and I am very glad you are reading this.
 
 
 # Who am I?

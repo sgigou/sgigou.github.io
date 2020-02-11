@@ -6,7 +6,7 @@ permalink: /about/
 
 Hi!
 
-My name is Steve Gigou, and I’m a french independant iOS developer.
+My name is Steve Gigou, and I’m a french independant computer engineer, currently focused on iOS development.
 
 Feel free to say hi on [Twitter](https://twitter.com/SteveGigou) or [LinkedIn](https://www.linkedin.com/in/stevegigou/).
 

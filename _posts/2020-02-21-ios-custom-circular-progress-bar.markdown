@@ -11,7 +11,7 @@ In this tutorial, we will create a nice circular progress bar to display progres
 
 Before starting, let me show you the desired output:
 
-![Progress bar animation](/assets/2020-02-21/progress_bar_animation.gif)
+<img src="/assets/2020-02-21/progress_bar_animation.gif" alt="Progress bar animation" width="125">
 
 The progress bar should be animated, and should be updatable.
 
@@ -106,7 +106,7 @@ The path will be a circle around `viewCenter`.
 
 The border is *centered* on the path. This means that it will protrude inside and outside. That is why the path must be smaller by `lineWidth / 2`.
 
-![Border structure](/assets/2020-02-21/border_structure.png)
+<img src="/assets/2020-02-21/border_structure.png" alt="Border structure" width="126">
 
 The angles are expressed in radians; you can take a look at the [Wikipedia page](https://en.wikipedia.org/wiki/Radian) if you do not know this concept. To make a complete circle, you should begin at -π and end at 3×π/2. I hate hadians.
 

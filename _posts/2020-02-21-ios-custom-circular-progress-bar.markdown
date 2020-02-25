@@ -108,7 +108,7 @@ The border is *centered* on the path. This means that it will protrude inside an
 
 <img src="/assets/2020-02-21/border_structure.png" alt="Border structure" width="126">
 
-The angles are expressed in radians; you can take a look at the [Wikipedia page](https://en.wikipedia.org/wiki/Radian) if you do not know this concept. To make a complete circle, you should begin at -π and end at 3×π/2. I hate hadians.
+The angles are expressed in radians; you can take a look at the [Wikipedia page](https://en.wikipedia.org/wiki/Radian) if you do not know this concept. To make a complete circle, you should begin at -π and end at 3×π/2. I hate radians.
 
 ```swift
 let borderPath = UIBezierPath(arcCenter: componentCenter, radius: radius - lineWidth / 2, startAngle: -.pi / 2, endAngle: 3 * .pi / 2, clockwise: true)
@@ -120,7 +120,7 @@ Next, let’s talk about the progress bar. In order to use the `strokeEnd` prope
 
 We will define the `progressRadius`, and the progress bar structure will be the same than the border, but the stroke width will be equal to `progressRadius`. The shape will be rolled up, and will look like a circle shape, but will be only composed of a stroke.
 
-Next, we will init the `strokeEnd` property to 0.0.
+Next, we will init the `strokeEnd` property to 0.0 — this means that none of the border will be drawn.
 
 ```swift
 let progressRadius = radius - 2 * lineWidth
@@ -160,7 +160,7 @@ progressLayer.strokeEnd = CGFloat(percentage)
 CATransaction.commit()
 ```
 
-When changing the `strokeEnd` property, the transaction will automatically animate it.
+When changing the `strokeEnd` property, the transaction will _automatically_ animate it — you have read correctly.
 
 If you want to skip the animation, you can ask the `CATransaction` to disable them.
 
@@ -178,4 +178,6 @@ You can also watch the frame of the view to update the circle if the size is cha
 
 # The turnkey solution
 
-Il you like this component, you can use the [NoveCircularProgressBar library](https://cocoapods.org/pods/NoveCircularProgressBar). You can also take a look at the [source code](https://github.com/sgigou/NoveCircularProgressBar) to find some inspiration for your own implementation.
+Il you like this component, you can use the [NoveCircularProgressBar library](https://cocoapods.org/pods/NoveCircularProgressBar). It does everything we saw in this article, and even more…
+
+You can also take a look at the [source code](https://github.com/sgigou/NoveCircularProgressBar) to find some inspiration for your own implementation.

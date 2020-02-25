@@ -178,4 +178,4 @@ You can also watch the frame of the view to update the circle if the size is cha
 
 # The turnkey solution
 
-Il you like this component, you can use the [NoveCircularProgressView library](https://cocoapods.org/pods/NoveLogger). You can also take a look at the [source code](https://github.com/sgigou/NoveCircularProgressView) to find some inspiration for your own implementation.
+Il you like this component, you can use the [NoveCircularProgressView library](https://cocoapods.org/pods/NoveCircularProgressView). You can also take a look at the [source code](https://github.com/sgigou/NoveCircularProgressView) to find some inspiration for your own implementation.

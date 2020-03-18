@@ -8,6 +8,8 @@ With iOS 13 appeared the new “swipe to dismiss” gesture on modales.
 
 You can have your functions called on dismiss, and even catch a dismiss swipe before it is done. This can allow you to display an ActionSheet to confirm the dismiss if there was any change.
 
+<img src="/assets/2020-03-18/animation.gif" alt="Modal dismiss animation" width="125">
+
 ## Step by step
 
 ### Step 1: disabling the swipe gesture

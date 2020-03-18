@@ -6,25 +6,28 @@ categories: [ios]
 
 With iOS 13 appeared the new “swipe to dismiss” gesture on modales.
 
-You can have your functions called on dismiss, and even catch a dismiss swipe before it is done. This can allow you to display an ActionSheet to confirm the dismiss if there was any change.
+You can have your functions called on dismiss, and even catch a dismiss swipe before it’s done. This can allow you to display an ActionSheet to confirm the dismiss if there was any change.
 
 <img src="/assets/2020-03-18/animation.gif" alt="Modal dismiss animation" width="125">
 
+
 ## Step by step
+
 
 ### Step 1: disabling the swipe gesture
 
-This step is important if you wish to ask a confirmation to the user.
+This step is important if you want to ask a confirmation to the user.
 
 The framework allows you to keep the gesture, but to disable the automatic dismiss. Instead, the system will call a function so you can do whatever you want.
 
 To disable the dismiss, in your `UIViewController`, you have to set the [`isModalInPresentation`](https://developer.apple.com/documentation/uikit/uiviewcontroller/3229894-ismodalinpresentation) boolean to `true`.
 
-You can wait until the user has made a change to do so.
+You can even wait until the user has made a change to set it!
+
 
 ### Step 2: Become the delegate
 
-The next step is to allow the system to call you when the user try to dismiss the view controller.
+Let’s allow the system to call you when the user tries to dismiss the view controller.
 
 This operation is done by setting yourself as the delegate of the [`UIPresentationController`](https://developer.apple.com/documentation/uikit/uipresentationcontroller) of your `UIViewController`.
 
@@ -35,6 +38,7 @@ presentationController?.delegate = self
 // or, if the UIViewController is in a UINavigationController
 navigationController?.presentationController?.delegate = self
 ```
+
 
 ### Step 3: Implement the protocol
 
@@ -54,6 +58,7 @@ This protocol will give you access to functions to:
 * tell the system if the user can dismiss the controller or not,
 * other things you can find in [the official documentation](https://developer.apple.com/documentation/uikit/uiadaptivepresentationcontrollerdelegate).
 
+
 ### Step 4: Display an `UIActionSheet`
 
 The function we are interested in is:
@@ -67,6 +72,7 @@ func presentationControllerDidAttemptToDismiss(_ presentationController: UIPrese
 This function will be called when the user tried to swipe the view controller down, but was stopped by the `isModalInPresentation` property.
 
 You can ask him if he really wants to cancel, and then dismiss the view controller for real.
+
 
 ## Put it all together
 
@@ -132,6 +138,4 @@ class MyViewController: DismissableFormViewController {
 }
 ```
 
-You are free to improve this class to allow it, for example, to manage the _Cancel_ and _Save_ buttons of the `UINavigationBar`.
-
-#Blog/Pro
+You’re free to improve this class to allow it, for example, to manage the _Cancel_ and _Save_ buttons of the `UINavigationBar`.

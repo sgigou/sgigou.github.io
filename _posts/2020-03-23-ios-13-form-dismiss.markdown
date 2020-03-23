@@ -21,6 +21,7 @@ The *Done* button is quite consistent:
 - it is greyed out until any there’s been a change,
 - when tapped, changes are persisted and the form is dismissed.
 
+<img src="/assets/2020-03-23/done.png" alt="Greyed-out done button" width="256">
 
 ### The *Cancel* button
 The *Cancel* button is less consistent:
@@ -28,6 +29,7 @@ The *Cancel* button is less consistent:
 - it is present in old apps like *Contacts* and *Agenda*, but it does not appear anymore in redesigned ones like *Reminders*,
 - when tapped, an action sheet is displayed to request confirmation from the user, only if the form has changes.
 
+<img src="/assets/2020-03-23/cancel.png" alt="Cancel button action sheet" width="256">
 
 ### The swipe gesture
 The swipe button act almost like the *Cancel* button:

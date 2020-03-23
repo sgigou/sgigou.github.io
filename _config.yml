@@ -32,7 +32,7 @@ google_analytics: UA-144085125-2
 show_excerpts: true
 
 # Build settings
-theme: jekyll-theme-merlot
+theme: minima
 plugins:
   - jekyll-feed
 

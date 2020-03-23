@@ -62,6 +62,8 @@ With this behaviour, the user is able to save or cancel from the bottom of the s
 ## How to do it
 The implementation is rather simple, so I will just let you read this commented class. The tricky lines will be commented at the end, so don’t hesitate to slide the code to the right.
 
+You can also find more informations about the swipe to dismiss gesture management [on this ~~awesome~~ article about it](https://sgigou.github.io/ios/2020/03/18/display-action-sheet-on-ios-13-modal-dismiss.html).
+
 ```swift
 import UIKit
 

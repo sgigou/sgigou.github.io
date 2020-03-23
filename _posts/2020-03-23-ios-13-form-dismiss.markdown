@@ -55,7 +55,7 @@ The behaviour I defined for this gesture is as follows:
 
 With this behaviour, the user is able to save or cancel from the bottom of the screen, so with one hand.
 
-- [ ] IMG: Action sheet with both questions
+<img src="/assets/2020-03-23/swipe.png" alt="Swipe action sheet" width="256">
 
 ## How to do it
 The implementation is rather simple, so I will just let you read this commented class. The tricky lines will be commented at the end, so don’t hesitate to slide the code to the right.

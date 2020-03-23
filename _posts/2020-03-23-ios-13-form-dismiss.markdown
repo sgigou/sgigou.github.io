@@ -117,7 +117,7 @@ class FormViewController: UIViewController {
 
   // MARK: Display
 
-  /// Dismiss the view controller in the main thread
+  /// Dismisses the view controller in the main thread
   func dismiss() {
     DispatchQueue.main.async {
       [weak self] in

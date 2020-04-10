@@ -7,6 +7,8 @@ categories: [ios]
 
 iOS 11.0 added a new way to manage cells swipe actions. It is now very simple to implement a _Delete_ button.
 
+<img src="/assets/2020-04-10/intro.png" alt="Swipe to delete illustration" width="256">
+
 
 ## Display the _Delete_ button
 

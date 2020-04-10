@@ -14,7 +14,7 @@ iOS 11.0 added a new way to manage cells swipe actions. It is now very simple to
 
 The only thing you have to implement is the result of the [`tableView(_:trailingSwipeActionsConfigurationForRowAt:)`](https://developer.apple.com/documentation/uikit/uitableviewdelegate/2902367-tableview) function.
 
-It returns a `UISwipeActionsConfiguration`, which is a container of `UIContextualAction`s.
+It returns a [`UISwipeActionsConfiguration`](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration), which is a container of [`UIContextualAction`](https://developer.apple.com/documentation/uikit/uicontextualaction).
 
 ```swift
 func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -37,7 +37,7 @@ Now, you display a beautiful _Delete_ button, that is tappable, and which calls 
 
 ### The table view deletion animation
 
-To display a deletion animation for a given row is quite simple; you only have to call the table view’s `deleteRows(at: [indexPath], with: .automatic)` function. You can even choose the animation you want: `.fade`, `.right`, `.left`, `.top`, `.bottom`, `.none`, `.middle` or `.automatic`.
+Displaying a deletion animation for a given row is quite simple; you only have to call the table view’s [`deleteRows(at:with:)`](https://developer.apple.com/documentation/uikit/uitableview/1614960-deleterows) function. You can even [choose the animation you want](https://developer.apple.com/documentation/uikit/uitableview/rowanimation): `.fade`, `.right`, `.left`, `.top`, `.bottom`, `.none`, `.middle` or `.automatic`.
 
 The `.automatic` one is the one used by the system.
 
@@ -52,7 +52,7 @@ private func deleteItem(at indexPath: IndexPath) {
 
 ### The data reloading
 
-The tricky part is here. If you just reload your data, then perform the tableview updates, you will end with an error telling you that the number of rows before and after the animation is the same, and that it should not (as you deleted one row).
+The tricky part is here. If you just reload your data, then perform the tableview updates, you will get an error telling you that the number of rows before and after the animation is the same, and that it should not (as you deleted one row, it must be `oldCount - 1`).
 
 You should organize you data update like this:
 
@@ -60,9 +60,11 @@ You should organize you data update like this:
 private func deleteItem(at indexPath: IndexPath) {
   let store = ItemStore() // Pre-load everything you can
   store.deleteItem(at: indexPath.row) // You can perform the deletion here and persist, but do not update the data in your controller!
+  // Here, items.count == n
   tableView.beginUpdates()
   items = store.load() // Update your controller’s data content inside the table view updates block.
   tableView.deleteRows(at: [indexPath], with: .automatic)
+  // Now, items.count == n - 1
   tableView.endUpdates()
 }
 ```
@@ -70,7 +72,7 @@ private func deleteItem(at indexPath: IndexPath) {
 
 ## Full example
 
-Here is an excerpt of a class implementing this solution.
+Here’s the excerpt of a view controller implementing this solution.
 
 ```swift
 class MyViewController: UIViewController {

@@ -69,7 +69,7 @@ override func viewWillAppear(_ animated: Bool) {
 
 ## The whole solution
 
-Your main view controller should contain look like this:
+Your main view controller should look like this:
 
 ```swift
 class KeyboardViewController: UIInputViewController {

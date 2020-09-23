@@ -1,8 +1,9 @@
 ---
 layout: post
-title: "An overview of logging in Swift"
+title: "Un aperçu des logs en Swift"
 date: 2020-02-12
-categories: mobile
+categories: dev
+tags: swift5 ios13
 ---
 
 Les logs sont un outil puissant. Ils peuvent vous aider à détecter des problèmes et à les résoudre. Néanmoins, ils peuvent également être dangereux.

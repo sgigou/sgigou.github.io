@@ -5,13 +5,13 @@ date: 2020-02-12
 categories: mobile
 ---
 
-Logging is a powerful tool. It can help you detect problems and fix them. However, you must use it correctly.
+Les logs sont un outil puissant. Ils peuvent vous aider à détecter des problèmes et à les résoudre. Néanmoins, ils peuvent également être dangereux.
 
 
-## Logging methods
+## Méthodes de log
 
-Several methods exist, each with its own specificities.
-To illustrate the outputs of those functions, I will use a common `struct`:
+Plusieurs méthodes existent, avec chacune ses spécificités.
+Pour illustrer les sorties de ces fonctions, j’utiliserai une `struct` commune :
 ``` swift
 struct Human {
   let name: String
@@ -20,94 +20,89 @@ struct Human {
 ```
 
 
-### print
+### `print`
 
 ``` swift
 func print(_ items: Any..., separator: String = " ", terminator: String = "\n")
 ```
-It is the easiest logging function in Swift. It will only display your output on the Xcode console when the device is plugged-in.
-This function does not support formatting, but you can use string interpolation — like `print("My human: \(human).")`.
+C’est la plus simple des fonctions de log en Swift. Elle affichera votre message sur la console Xcode lorsque l’appareil est connecté.
+Cette fonction ne supporte pas le _formatting_, mais vous pouvez utiliser l’interpolation de _strings_ — par exemple : `print("My human: \(human).")`.
 
 ``` swift
 print(human)
-```
-Will output:
-```
-Human(name: "Steve", age: 30)
+// Human(name: "Steve", age: 30)
 ```
 
-Back in Swift 1, you had two functions: `print()` that did not add a line break at the end of the message, and `println()` that did. Those functions were merged in a single `print()` function, but you still can remove the line break by specifying `""` as `terminator` parameter:
+Dans Swift 1, vous aviez deux fonctions : `print()` qui n’ajoutait pas de retour chariot, et `println()` qui en ajoutait un.
+Ces fonctions ont été fusionnées en une seule fonction `print()` qui ajoute un `\n` en fin de message. Vous pouvez toujours retirer le retour chariot en spécifiant `""` comme `terminator` :
 ``` swift
 print("A first print", terminator: "")
 print("A second print")
 // Outputs: A first printA second print
 ```
 
-For more information, you can refer to the [Apple Developer Documentation](https://developer.apple.com/documentation/swift/1541053-print).
+Pour plus d’informations, vous pouvez consulter la [documentation officielle](https://developer.apple.com/documentation/swift/1541053-print).
 
-### debugPrint
+### `debugPrint`
 ``` swift
 func debugPrint(_ items: Any..., separator: String = " ", terminator: String = "\n")
 ```
-It works almost like `print()`. The difference is the function called to display an object. `print()` will call `description()` function, and `debugPrint()` will call `debugDescription()` that will display more informations.
+Elle fonctionne quasiment comme `print()`. La différence réside en la méthode appelée pour afficher les objets passés en argument. `print()` appellera la fonction `description()`, et `debugPrint()` appellera la fonction `debugDescription()`, qui affiche plus d’informations par défaut.
 
 ``` swift
 debugPrint(human)
-```
-Will output:
-```
-__lldb_expr_6.Human(name: "Steve", age: 30)
+// __lldb_expr_6.Human(name: "Steve", age: 30)
 ```
 
-For more information, you can refer to the [Apple Developer Documentation](https://developer.apple.com/documentation/swift/1541053-print).
+Pour plus d’informations, vous pouvez consulter la [documentation officielle](https://developer.apple.com/documentation/swift/1541053-print).
 
-### dump
+### `dump`
 ``` swift
 @discardableResult func dump<T>(_ value: T, name: String? = nil, indent: Int = 0, maxDepth: Int = .max, maxItems: Int = .max) -> T
 ```
-This function allows to display an object. You can specify the wanted depth, the number of items displayed for a collection, and even the number of spaces used for indentation.
+Cette fonction permet d’afficher un objet. Vous pouvez spécifier la profondeur désirée, le nombre d’éléments affichés dans une collection, et même le nombre d’espaces utilisées pour l’indentation.
 
 ``` swift
 dump(human)
 ```
-Will produce:
+Sortira :
 ```
 ▿ __lldb_expr_6.Human
   - name: "Steve"
   - age: 30
 ```
 
-For more information, you can refer to the [Apple Developer Documentation](https://developer.apple.com/documentation/swift/1541053-print).
+Pour plus d’informations, vous pouvez consulter la [documentation officielle](https://developer.apple.com/documentation/swift/1541053-print).
 
-### NSLog
+### `NSLog`
 ``` swift
 func NSLog(_ format: String, _ args: CVarArg...)
 ```
-It is a lot slower than `print()` function.
-It will automatically add informations to your output: 
+Elle est bien plus lente que la fonction `print()`.
+Elle ajoutera automatiquement certaines informations à votre message : 
 ```
 <Date> <Time> <Program name>[<Process ID>:<Thread ID>] <Message>
 2016-07-16 08:58:04.681 test[46259:1244773] NSLog message
 ```
-It allows you to use String formatting:
+Elle permet également d’utiliser des formats :
 ``` swift
 NSLog("%0.4f", CGFloat.pi)
 ```
 
-The biggest difference with the previous functions is that your logs will be printed on the Xcode console _and_ the device console.
+La plus grande différence avec les fonctions précédentes est que vos logs seront affichés sur la console Xcode _et_ la console présente sur l’appareil.
 
-For more information, you can ~~try to~~ refer to the [Apple Developer Documentation](https://developer.apple.com/documentation/foundation/1409759-nslog).
+Pour plus d’informations, vous pouvez — essayer de — vous référer à la [documentation officielle](https://developer.apple.com/documentation/foundation/1409759-nslog).
 
-### os_log
+### `os_log`
 
 ``` swift
 #define os_log(log, format, ...)
 ```
 
-This is the new logging standard and it is available since iOS 10 and macOS 10.12.
-It must be imported, and you can control the subsystem and the category of your log message. You can also choose the log level: `.default`, `.info`, `.debug`, `.error` or `.fault`.
+C’est le nouveau standard de logs, disponible depuis iOS 10 et macOS 10.12.
+Le système doit être importé, et vous pouvez contrôler le sous-système et la catégorie de votre message. Vous pouvez également choisir le niveau de log entre `.default`, `.info`, `.debug`, `.error` et `.fault`.
 
-You can use format, but not string interpolation.
+Vous pouvez utiliser les formats, mais pas l’interpolation.
 
 ``` swift
 import os.log
@@ -116,17 +111,17 @@ let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "network")
 os_log("url = %@", log: log, url.absoluteString)
 ```
 
-It will only output your logs on your device, so you have to use `Console.app` to display them.
+La sortie sera effectuée sur la console Xcode, mais également sur la console de l’appareil. Il est conseillé d’utiliser l’application `Console.app` pour les afficher — vous pourrez ainsi les filtrer, et profiter de toute la puissance de ce système.
 
-It is more complex to use than the others, so I will not elaborate on it since this article is an overview. It deserves a dedicated article.
+`os_log` est plus complexe à utiliser que les autres méthodes, donc je n’irai pas plus loin puisque cet article n’est qu’un aperçu. Il mériterait un article complet.
 
-If you are interested, you can read the [Apple Developer Documentation](https://developer.apple.com/documentation/os/os_log?language=occ) or watch the [WWDC 2016 video about Unified Logging and Activity Tracing](https://developer.apple.com/videos/play/wwdc2016/721/).
+Si cela vous intéresse, vous pouvez lire la [documentation officielle](https://developer.apple.com/documentation/os/os_log?language=occ) ou regarder la vidéo suivante : [WWDC 2016 video about Unified Logging and Activity Tracing](https://developer.apple.com/videos/play/wwdc2016/721/).
 
 
-## Customize output
+## Sortie personnalisée
 
-Like I said before, `print()` and `debugPrint()` relie on system functions to display objects: `description()` and `debugDescription()`.
-You can conform to `CustomStringConvertible` (or `CustomDebugStringConvertible`) to override their implementations and display your objects as you want:
+Comme je l’ai dit précédemment, `print()` et `debugPrint()` s’appuient sur des fonctions prédéfinies pour afficher les objets : `description()` et `debugDescription()`.
+Vous pouvez implémenter le protocol `CustomStringConvertible` (ou `CustomDebugStringConvertible `) pour écraser les implémentations par défaut et afficher les objets comme vous le souhaitez :
 
 ``` swift
 struct Human: CustomStringConvertible {
@@ -143,54 +138,55 @@ let human = Human(name: "Steve", age: 30)
 print("Current human: \(human)")
 ```
 
-Will output:
+Aura pour sortie :
 
 ```
 Current human: Human named Steve (30 years old)
 ```
 
 
-## Logs issues
+## Les problèmes des logs
 
-Logs suffer from performance and security problems.
-
-
-### Performances issues
-
-As silly as that sentence may sound: logs consume resources.
-
-You may be tempted to add logs everywhere during development. This will become an issue in production, where those logs are not necessary anymore, but will slow down your app.
-
-If you want to read more about performances issues, you can check this interesting article: [Why print is dangerous](https://medium.com/ios-os-x-development/swift-log-devil-or-why-println-is-dangerous-46390453353d).
+Les logs souffrent de problèmes de performance et de sécurité.
 
 
-### Security issues
+### Les problèmes de performance
 
-As said before, `NSLog()` and `os_log` will output log messages on the device. This means that any user can see them if they know how to use Xcode and the Console app.
+Aussi évident que cela puisse paraître : les logs consomment des ressources.
 
-You can easily imagine the security issues that can arise when logging confidential or sensitive informations.
+Vous pourriez être tenté d’ajouter des logs partout durant le développement. Ainsi, vous pourriez retracer très exactement le cheminement de chaque action de l’utilisateur.
+Cela deviendrait néanmoins un problème en production, où ces logs ne sont plus forcément nécessaires, mais ralentiront votre application.
+
+Si vous voulez en lire plus sur les problèmes de performance, vous pouvez jeter un œil à cet article : [Why print is dangerous](https://medium.com/ios-os-x-development/swift-log-devil-or-why-println-is-dangerous-46390453353d).
 
 
-### A common fix
+### Les problèmes de sécurité
 
-A simple solution is to keep some logs for debug mode only:
+Comme je l’ai dit auparavant, `NSLog()` et `os_log` auront une sortie sur les logs de l’appareil. Cela signifie que l’utilisateur est capable de les voir si il sait comment utiliser Xcode ou l’application Console. Pire encore, cela veut dire que ces logs peuvent être volés.
+
+Vous imaginez aisément les problèmes de sécurité qui peuvent survenir si vous logguez des informations confidentielles ou à risque.
+
+
+### Une solution commune
+
+Une solution simple consiste à ne conserver certains logs que pour le mode `DEBUG` :
 
 ``` swift
 #if DEBUG
   print("Log not wanted in production.")
 #endif
-print("Production-safe log")
+NSLog("Production-safe log")
 ```
 
-With this solution, you can choose the logs you wish to display on the device. I suggest you only keep critical logs for production mode — logs you would have classified as errors or warnings.
+Avec cette solution, vous pouvez filtrer les logs qui seront présents sur l’appareil. Je vous conseille de conserver les logs critiques uniquement en production — les logs que vous classifiez en `ERROR` ou `WARNING`.
 
-Verbose logs will not slow down your app, and sensitive informations will not be used against your app or your users.
+Les logs de debug ne ralentiront pas votre app, et les informations sensibles ne seront ainsi affichées qu’en développement.
 
 
-## NoveLogger library
+## La bibliothèque NoveLogger
 
-To make my work easier, I created a lightweight library.
+Pour faciliter mon travail, j’ai créé une bibliothèque simple pour gérer mes logs.
 
-It supports logs levels and displays the file, the function and even the line number of the log. It also allows you to define which log levels should be printed in production mode.
+Elle supporte les niveaux de logs, et affiche le fichier, la fonction et même la ligne à laquelle est effectuée le log. Elle vous permet également de définir quels logs doivent être conservés en production.
 
-It is available for everyone on [CocoaPods](https://cocoapods.org/pods/NoveLogger) and you can check the source code on [GitHub](https://github.com/sgigou/NoveLogger).
+Elle est disponible sur [CocoaPods](https://cocoapods.org/pods/NoveLogger) et vous pouvez jeter un œil aux sources sur [GitHub](https://github.com/sgigou/NoveLogger).

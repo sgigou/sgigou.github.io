@@ -1,27 +1,28 @@
 ---
 layout: post
-title: "A circular progress bar in iOS using Swift 5"
+title: "Une barre de progression circulaire en Swift"
 date: 2020-02-21 09:30:00 +0100
-categories: iOS
+categories: dev
+tags: swift swift5 ios ios13
 ---
 
-In this tutorial, we will create a nice circular progress bar to display progress on your apps.
+Dans ce tutoriel, nous allons créer une jolie barre de progression circulaire.
 
-# What will we do?
+# Qu’allons-nous réaliser exactement ?
 
-Before starting, let me show you the desired output:
+Avant de commencer, laissez-moi vous montrer le rendu souhaité :
 
 <img src="/assets/2020-02-21/progress_bar_animation.gif" alt="Progress bar animation" width="125">
 
-The progress bar should be animated, and should be updatable.
+La barre doit être animée et pouvoir être mise à jour.
 
-As I have never liked tutorials that explain how to create a new project, I will start from the assumption that your project already exists.
+Comme je n’ai jamais apprécié les tutoriels qui commencent par vous demander d’allumer votre Mac, je ne vous demanderai pas de créer un nouveau projet.
 
-We will use two shapes — one for the border and one for the progress bar — and use the strokeEnd property to animate the progress change.
+Nous utiliserons deux formes — une pour la bordure, et une pour la barre de progression — et utiliserons la propriété `strokeEnd` pour animer les mises à jour.
 
-# The progress bar class
+# La classe de la barre de progression
 
-You don't have any time to lose, so let's display the complete class directly. If you needs explanations, you will find them after the code block.
+Votre temps est précieux, donc je vous donne la classe complète directement. Si vous avez besoin d’explications, vous les trouverez après le bloc de code.
 
 ```swift
 @IBDesignable public class CircularProgressBar: UIView {
@@ -85,30 +86,30 @@ You don't have any time to lose, so let's display the complete class directly. I
 
 ## Layer paths
 
-The first step of the `createLayers` function is to draw the layers.
+La première étape de la fonction `createLayers` sert à dessiner les calques.
 
-Firstly, we will define the line width we want. It will be used to draw the border thickness, and the inner space between the border and the progress bar.
+Dans un premier temps, nous définissons la largeur de ligne que nous souhaitons. Ce sera utilisé pour l’épaisseur de la bordure, et l’espace entre la bordure et la barre de progression.
 
 ```swift
 let lineWidth = 2.0
 ```
 
-Next, we will define the max radius of our component. It will be limited by the smallest width or height of the frame. We will also store the center of the view.
+Ensuite, nous définissons le rayon maximum de notre composant. Il sera limité par la plus petite hauteur ou largeur de la frame. Nous stockons également le centre de la vue.
 
 ```swift
 let radius = min(frame.size.width / 2, frame.size.height / 2)
 let viewCenter = CGPoint(x: frame.midX, y: frame.midY)
 ```
 
-Now, let’s talk about the border drawing — the easiest part.
+Maintenant, dessinons la bordure — c’est la partie facile.
 
-The path will be a circle around `viewCenter`.
+Le chemin sera un cercle centré autour de `viewCenter`.
 
-The border is *centered* on the path. This means that it will protrude inside and outside. That is why the path must be smaller by `lineWidth / 2`.
+La bordure est *centrée* sur le chemin. Cela signifie qu’elle dépassera à l’intérieur et à l’extérieur. C’est pourquoi le chemin doit être plus petit que le rayon souhaité de `lineWidth / 2`.
 
 <img src="/assets/2020-02-21/border_structure.png" alt="Border structure" width="126">
 
-The angles are expressed in radians; you can take a look at the [Wikipedia page](https://en.wikipedia.org/wiki/Radian) if you do not know this concept. To make a complete circle, you should begin at -π and end at 3×π/2. I hate radians.
+Les angles sont exprimés en radians ; vous pouvez jeter un œil à la [page Wikipedia](https://en.wikipedia.org/wiki/Radian) si vous n’êtes pas familiers avec ce concept. Pour réaliser un cercle complet, vous devez commencer à -π et terminer à 3×π/2. Je hais les radians.
 
 ```swift
 let borderPath = UIBezierPath(arcCenter: componentCenter, radius: radius - lineWidth / 2, startAngle: -.pi / 2, endAngle: 3 * .pi / 2, clockwise: true)
@@ -116,11 +117,11 @@ borderLayer.path = circlePath.cgPath
 borderLayer.lineWidth = lineWidth
 ```
 
-Next, let’s talk about the progress bar. In order to use the `strokeEnd` property to animate our transitions, we will need to use a massive stroke instead of a fill color.
+Ensuite, parlons de la barre de progression. Pour utiliser la propriété `strokeEnd` pour animer nos transitions — ce qui est extrêmement pratique — nous allons devoir utilise une ligne très épaisse plutôt qu’une couleur de remplissage.
 
-We will define the `progressRadius`, and the progress bar structure will be the same than the border, but the stroke width will be equal to `progressRadius`. The shape will be rolled up, and will look like a circle shape, but will be only composed of a stroke.
+Nous allons définir le rayon de la barre de progression, et la structure sera au final la même que la bordure ; simplement, l’épaisseur du trait sera égale au rayon de la barre. La forme sera enroulée sur elle-même, et ressemblera à un cercle rempli, alors qu’elle ne sera qu’un trait très épais.
 
-Next, we will init the `strokeEnd` property to 0.0 — this means that none of the border will be drawn.
+Ensuit, nous allons initialiser la propriété `strokeEnd` à 0.0 — ce qui correspond à ne rien dessiner.
 
 ```swift
 let progressRadius = radius - 2 * lineWidth
@@ -130,29 +131,31 @@ progressLayer.lineWidth = progressRadius
 progressLayer.strokeEnd = 0
 ```
 
-## Color management
 
-The color management of the border is simple: you have to set the fill color to `.clear` and choose the stroke color.
+## La gestion des couleurs
+
+La gestion des couleurs pour la bordure extérieure est simple : vous devez assigner la couleur de remplissage à `.clear` et choisir uniquement la couleur de la bordure.
 
 ```swift
 borderLayer.fillColor = UIColor.clear.cgColor
 borderLayer.strokeColor = .blue
 ```
 
-The only point you need to pay attention to is the `progressLayer`. As said before, even if it looks like a circle shape filled with a color, it is not! It is only composed of a border rolled-up.
+Le seul point auquel vous devez prêter attention est au `progressLayer`. Comme je l’ai dit précédemment, bien qu’il ressemble à un cercle rempli, il ne s’agit que d’une ligne très épaisse et enroulée sur elle-même.
 
-That is why you need to set its colors the same way as the `borderLayer`.
+C’est pourquoi pour lui également, il ne faut définir que la couleur de la bordure.
 
 ```swift
 progressLayer.fillColor = UIColor.clear.cgColor
 progressLayer.strokeColor = .blue
 ```
 
-## Animating the updates
 
-We will use `CATransaction` to perform our animations. It will allow to stay simple, and to disable them if needed.
+## Animer les mises à jour
 
-The main animation is code is:
+Nous utiliserons `CATransaction` pour réaliser les animations. C’est très simple et ça peut être désactivé si besoin.
+
+Le code principal des animations est :
 
 ```swift
 CATransaction.begin()
@@ -160,24 +163,26 @@ progressLayer.strokeEnd = CGFloat(percentage)
 CATransaction.commit()
 ```
 
-When changing the `strokeEnd` property, the transaction will _automatically_ animate it — you have read correctly.
+Lorsque nous changeons la valeur de `strokeEnd`, la transaction va _automatiquement_ l’animer — et oui.
 
-If you want to skip the animation, you can ask the `CATransaction` to disable them.
+Si vous souhaitez sauter l’animation, vous pouvez demander à `CATransaction` de les désactiver.
 
 ```
 CATransaction.setDisableActions(true)
 ```
 
-# To go further
 
-`CATransaction` is easily customizable. You can adjust the animation duration, the timing function… I will let you take a look at the [Apple documentation](https://developer.apple.com/documentation/quartzcore/catransaction).
+## Pour aller plus loin
 
-The hard-coded values can also be turned into variables: the color, the line width, for example.
+`CATransaction` est simple à personnaliser. Vous pouvez changer la durée de l’animation, la fonction temporelle… je vous laisser regarder la [documentation d’Apple](https://developer.apple.com/documentation/quartzcore/catransaction).
 
-You can also watch the frame of the view to update the circle if the size is changed; you can create a function to update the color, and even animate the color change to match the progress value.
+Les valeurs codées en dur dans le tutoriel peuvent également être changées en variables : la couleur, la taille, l’épaisseur…
 
-# The turnkey solution
+Vous pouvez enfin vous abonner aux changement de la frame de la vue pour mettre à jour le composant si la taille est modifiée ; vous pouvez également créer une fonction pour animer le changement de couleur, voire changer la couleur en fonction de la valeur affichée.
 
-Il you like this component, you can use the [NoveCircularProgressBar library](https://cocoapods.org/pods/NoveCircularProgressBar). It does everything we saw in this article, and even more…
 
-You can also take a look at the [source code](https://github.com/sgigou/NoveCircularProgressBar) to find some inspiration for your own implementation.
+## La solution clef en main
+
+Si vous aimez ce composant, vous pouvez utiliser la bibliothèque [NoveCircularProgressBar](https://cocoapods.org/pods/NoveCircularProgressBar). Elle fait tout ce qui est décrit dans ce tutoriel, et même plus…
+
+Vous pouvez également jeter un œil au [code source](https://github.com/sgigou/NoveCircularProgressBar) pour trouver de l’inspiration pour votre propre implémentation.

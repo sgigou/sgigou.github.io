@@ -1,82 +1,83 @@
 ---
 layout: post
-title: "Display an action sheet to confirm modal dismiss on iOS 13"
-categories: [ios]
+title: "Afficher une action sheet de confirmation pour rejeter une modale sur iOS 13"
+categories: dev
+tags: swift swift5 ios ios13
 ---
 
-With iOS 13 appeared the new “swipe to dismiss” gesture on modales.
+Avec iOS 13 est apparu le geste « glisser pour rejeter » sur les modales.
 
-You can have your functions called on dismiss, and even catch a dismiss swipe before it’s done. This can allow you to display an ActionSheet to confirm the dismiss if there was any change.
+Vous pouvez exécuter du code au moment du rejet, et même intercepter ce geste avant qu’il soit appliqué. Cela vous permet d’afficher une `ActionSheet` pour demander une confirmation — si un changement a été effectué par exemple.
 
 <img src="/assets/2020-03-18/animation.gif" alt="Modal dismiss animation" width="125">
 
 
-## Step by step
+## Étape par étape
 
 
-### Step 1: disabling the swipe gesture
+### Étape 1: intercepter le geste de rejet
 
-This step is important if you want to ask a confirmation to the user.
+Cette étape est importante si vous souhaitez demander une confirmation à l’utilisateur.
 
-The framework allows you to keep the gesture, but to disable the automatic dismiss. Instead, the system will call a function so you can do whatever you want.
+Le framework vous permet de conserver le geste, mais de désactiver le _dismiss_ automatique. À la place, le système appellera une fonction afin que vous puissiez faire ce que bon vous semble.
 
-To disable the dismiss, in your `UIViewController`, you have to set the [`isModalInPresentation`](https://developer.apple.com/documentation/uikit/uiviewcontroller/3229894-ismodalinpresentation) boolean to `true`.
+Pour désactiver le rejet, dans votre `UIViewController`, vous devez assigner la valeur `true` au booléen `isModalInPresentation`.
 
-You can even wait until the user has made a change to set it!
+Vous pouvez même attendre que l’utilisateur ait modifié le formulaire pour le setter !
 
 
-### Step 2: Become the delegate
+### Étape 2: Devenir délégué
 
-Let’s allow the system to call you when the user tries to dismiss the view controller.
+Nous devons permettre au système d’appeler notre fonction lorsque l’utilisateur essaie de fermer la modale.
 
-This operation is done by setting yourself as the delegate of the [`UIPresentationController`](https://developer.apple.com/documentation/uikit/uipresentationcontroller) of your `UIViewController`.
+Cette opération est réalisée en s’assignant en tant que délégué de `UIPresentationController` de votre contrôleur.
 
-In your controller — in the `viewDidLoad` function for example — add the following line:
+Dans votre contrôleur — dans la fonction `viewDidLoad` par exemple — ajoutez la ligne suivante :
 
 ```swift
 presentationController?.delegate = self
-// or, if the UIViewController is in a UINavigationController
+// ou, si le UIViewController est dans un UINavigationController
 navigationController?.presentationController?.delegate = self
 ```
 
 
-### Step 3: Implement the protocol
+### Étape 3: Implémenter le protocole
 
-The previous line will generate an error, because your view controller does not conform to the delegate protocol:
+La ligne précédente génèrera une erreur, car votre contrôleur ne correspond pas au protocole :
 
 ```swift
 extension YourViewController: UIAdaptativePresentationControllerDelegate {
-  // Implement any function in the protocol
+  // Code à exécuter
 }
 ```
 
-This protocol will give you access to functions to:
+Ce protocole vous donne accès à des fonctions pour :
 
-* know when the controller will be dismissed,
-* know when the controller has been dismissed,
-* know when the user tried to dismiss the controller,
-* tell the system if the user can dismiss the controller or not,
-* other things you can find in [the official documentation](https://developer.apple.com/documentation/uikit/uiadaptivepresentationcontrollerdelegate).
+* savoir quand le contrôleur va être fermé,
+* savoir quand le contrôleur a été fermé,
+* savoir quand l’utilisateur a essayé de fermer le contrôleur,
+* dire au système si l’utilisateur a le droit de fermer le contrôleur,
+* d’autres choses que vous pouvez trouver dans la [documentation officielle](https://developer.apple.com/documentation/uikit/uiadaptivepresentationcontrollerdelegate).
 
 
-### Step 4: Display an `UIActionSheet`
+### Étape 4: Afficher une `UIActionSheet`
 
-The function we are interested in is:
+La fonction qui nous intéresse est :
 
 ```swift
 func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
-  // Display your action sheet, and then call the dismiss(…) function
+  // Afficher l’ActionSheet, puis appeler dismiss(…)
 }
 ```
 
-This function will be called when the user tried to swipe the view controller down, but was stopped by the `isModalInPresentation` property.
+Cette fonction sera appelée lorsque l’utilisateur essaie d’abaisser la vue, mais qu’il a été stoppé par la propriété `isModalInPresentation` précédemment assignée à `true`.
 
-You can ask him if he really wants to cancel, and then dismiss the view controller for real.
+Vous pouvez lui demander s’il veut réellement annuler, puis effectuer le _dismiss_.
 
 
-## Put it all together
+## Tout ensemble
 
-If you need to implement several form sheets, you can create a class to inherit.
+Si vous avez besoin de répéter ce comportement sur plusieurs formulaires, vous pouvez créer une classe de laquelle hériter.
 
 ```swift
 import UIKit
@@ -126,7 +127,7 @@ extension DismissableFormViewController: UIAdaptivePresentationControllerDelegat
 
 ```
 
-Then you can use this class by inheriting it. When your fields have been edited, lock your form by calling the `formWasEdited()` function of the parent class.
+Quand vos champs ont été édités, verrouillez le formulaire en appelant la fonction `formWasEdited()` de la classe parente.
 
 ```swift
 class MyViewController: DismissableFormViewController {
@@ -138,4 +139,4 @@ class MyViewController: DismissableFormViewController {
 }
 ```
 
-You’re free to improve this class to allow it, for example, to manage the _Cancel_ and _Save_ buttons of the `UINavigationBar`.
+Vous pouvez encore améliorer cette classe en lui permettant — par exemple — de gérer les boutons _Cancel_ et _Save_ de la `UINavigationBar`.

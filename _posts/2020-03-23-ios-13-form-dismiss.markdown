@@ -1,68 +1,83 @@
 ---
 layout: post
-title: "The best way to manage form dismiss on iOS 13"
+title: "Gérer efficacement le dismiss des formulaires sur iOS 13"
 date: 2020-03-23 11:00:00 +0100
-categories: [ios]
+categories: dev
+tags: ios ios13 swift swift5
 ---
 
-Native iOS 13 apps are quite inconsistent when it comes to form dismiss. Let me explain the guidelines I follow and show you how I do it.
+Les applications d’Apple sur iOS 13 ne suivent pas les mêmes règles en ce qui concerne l’annulation des formulaires. Je vais vous expliquer les guidelines que je suis et comment les mettre en place.
 
-## What Apple do
+## Ce que fait Apple
 
-It seems that teams didn’t agree on the proper way to handle the new “swipe to dismiss” gesture.
+Il semblerait que les équipes ne se soient pas concertées sur une manière de gérer le geste « swipe to dismiss ».
 
-Let’s take a look at some apps, to see how they manage their forms, and try to extract some guidelines.
+Jetons un œil à quelques apps pour voir comment elles gèrent la situation et essayer d’en tirer des lignes directrices.
 
-### The *Done* button
+### Le bouton _Done_
 
-The *Done* button is quite consistent:
+Ce bouton a un comportement assez régulier sur les différentes apps :
 
-- in almost all apps, it is called `Done`,
-- it is greyed out until any there’s been a change,
-- when tapped, changes are persisted and the form is dismissed.
+* dans presque toutes les applications, il est intitulé _Done_,
+* il est désactivé jusqu’à ce qu’une modification soit apportée au formulaire,
+* quand il est pressé, les modifications sont sauvegardées et le formulaire est écarté.
 
-<img src="/assets/2020-03-23/done.png" alt="Greyed-out done button" width="256">
+<img src="/assets/2020-03-23/done.png" alt="Greyed-out done button" width="256"\>
 
-### The *Cancel* button
-The *Cancel* button is less consistent:
-- it is always called `Cancel`,
-- it is present in old apps like *Contacts* and *Agenda*, but it does not appear anymore in redesigned ones like *Reminders*,
-- when tapped, an action sheet is displayed to request confirmation from the user, only if the form has changes.
+### Le bouton _Cancel_
 
-<img src="/assets/2020-03-23/cancel.png" alt="Cancel button action sheet" width="256">
+Ce bouton a un comportement plus variable :
 
-### The swipe gesture
-The swipe button act almost like the *Cancel* button:
-* it is present on most apps, but some do not implement it, like the contact edition form,
-* when swiping with no form changes, the form is dismissed,
-* when swiping after updates, an action sheet is displayed to request confirmation from the user before dismissing.
+* il est toujours appelé _Cancel_,
+* il est présent dans les vieilles apps comme _Contacts_ et _Agenda_, mais il n’apparaît plus dans celles qui ont été refaites — comme _Reminders_,
+* lorsqu’il est pressé, une action sheet est affichée pour demander une confirmation à l’utilisateur — dans le cas où le formulaire a été édité.
 
-## What I do
-I like to stay consistent between my apps. That’s why I defined some guidelines, and try to stick to it.
+<img src="/assets/2020-03-23/cancel.png" alt="Cancel button action sheet" width="256"\>
 
-### The *Done* button
-It is always present, on the top right of the form. It is greyed out util a change is made.
-There is no confirmation needed: when the user taps on it, it saves the data and dismisses the form.
+### Le geste _swipe_
 
-### The *Cancel* button
-It is always present, on the top left of the form.
-If the user did not make any change to the form, then a tap on it dismisses the view controller.
-If there was any change, the button will ask for the user’s confirmation with an action sheet. If the user confirms, it reverses the changes and dismisses the form.
+Il fonctionne quasiment comme le bouton _Cancel_ :
 
-### The swipe gesture
-On this point, I differ from Apple guidelines. I think this gesture is awesome to avoid having to reach for the buttons at the top, as it is can be triggered from the form itself.
-The behaviour I defined for this gesture is as follows:
-* if there is no changes, then it only dismisses the form,
-* if there are updates, it displays an action sheet that will ask the user what he prefers: saving or cancelling.
+* il est supporté par presque toutes les apps, mais certaines ne l’implémentent pas, comme l’app _Contact_,
+* lorsqu’il est effectué sans changement du formulaire, le formulaire est écarté,
+* lorsqu’il est effectué après avoir apporté des modifications au formulaire, une action sheet demande confirmation à l’utilisateur de les annuler.
 
-With this behaviour, the user is able to save or cancel from the bottom of the screen, so with one hand.
+## Mes lignes directrices
 
-<img src="/assets/2020-03-23/swipe.png" alt="Swipe action sheet" width="256">
+J’essaie de rester consistent d’une application à l’autre. C’est pourquoi j’ai défini quelques lignes directrices et essaie de m’y tenir.
 
-## How to do it
-The implementation is rather simple, so I will just let you read this commented class. The tricky lines will be commented at the end, so don’t hesitate to slide the code to the right.
+### Le bouton _Done_
 
-You can also find more informations about the swipe to dismiss gesture management [on this ~~awesome~~ article about it](https://sgigou.github.io/ios/2020/03/18/display-action-sheet-on-ios-13-modal-dismiss.html).
+Il est toujours présent, en haut à droite du formulaire. Il est grisé jusqu’à ce qu’une modification soit apportée au formulaire.
+
+Il ne demande pas de confirmation : lorsqu’il est pressé, il sauvegarde les données et ferme le formulaire.
+
+### Le bouton _Cancel_
+
+Il est toujours présent, en haut à gauche du formulaire.
+
+Si l’utilisateur n’a pas effectué de changement, alors un appui ferme le contrôleur.
+
+Si des changements ont été apportés, l’app demandera une confirmation de l’utilisateur par une action sheet. Si l’utilisateur confirme, les modifications sont annulées et le formulaire est clos.
+
+### Le geste _swipe_
+
+Sur ce point, je n’applique pas les quelques lignes d’Apple. Je pense que ce geste est fantastique pour éviter à l’utilisateur d’aller chercher les boutons en haut de l’écran, puisqu’il peut être déclenché depuis le bas de l’écran.
+
+Le comportement que j’ai défini pour ce geste est le suivant :
+
+* si aucune modification n’est en attente, alors il ferme le formulaire,
+* si des changements ont été effectués, il affiche une action sheet qui demande à l’utilisateur ce qu’il préfère : sauvegarder les modifications ou les annuler.
+
+Avec ce comportement, l’utilisateur a la possibilité de sauvegarder ou annuler depuis le bas de l’écran — donc avec une main.
+
+<img src="/assets/2020-03-23/swipe.png" alt="Swipe action sheet" width="256"\>
+
+## Comment implémenter ce comportement
+
+L’implémentation est plutôt simple, donc je vais vous laisser avec cette classe commentée.
+
+Vous pouvez également trouver plus d’informations concernant la gestion de ce geste sur [cet autre article](https://sgigou.github.io/ios/2020/03/18/display-action-sheet-on-ios-13-modal-dismiss.html).
 
 ```swift
 import UIKit

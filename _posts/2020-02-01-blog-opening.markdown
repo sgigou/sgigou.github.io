@@ -1,30 +1,31 @@
 ---
 layout: post
-title: "Blog opening"
+title: "Ouverture du blog"
 date: 2020-02-01 11:44:02 +0100
 categories: news
 ---
 
-Hi! My name is Steve Gigou and I am very glad you are reading this.
+Bonjour ! Je suis Steve, et j’ai l’honneur de vous annoncer l’ouverture de mon blog sur le développement.
 
 
-# Who am I?
-I am a French independent computer engineer, currently working on [my own iOS apps](https://steve.gigou.fr). This is my first professional blog, but I have some experience in personal blogging.
+## Qui suis-je ?
 
-I used to work for French companies as a developer and a Scrum Master. After some time, I decided it was time to try my luck as an independent worker.
+Je suis un ingénieur en informatique indépendant, qui travaille actuellement sur [mes propres applications iOS](https://steve.gigou.fr). Ceci est ma première expérience de rédaction professionnelle, mais j’ai une certaine expérience en rédaction.
 
-I mostly experienced Objective-C, Swift, PHP and C++. And I finally chose Swift!
+J’ai travaillé pour des entreprises en tant que développeur et Scrum Master. Après quoi j’ai décidé qu’il était temps de tenter l’aventure du travail en indépendant.
 
-
-# Why start a blog?
-
-I decided to launch this website because I wanted to share my experience in development. As an independent developer, I run into problems daily, and I think their resolution may be interesting for other people.
-
-Il will not only share tips for Swift development, but also for anything related to apps production: methodology, website creation, UX, prototyping, accounting, time management, productivity…
-
-I hope that any computer scientist will find articles that are relevant to him or her.
+Mon expérience s’articule surtout autour de l’Objective-C, de Swift, du PHP et du C++.
 
 
-# Can we talk?
+## Pourquoi ce blog ?
 
-Feel free to reach me on [Twitter](https://twitter.com/SteveGigou) or [LinkedIn](https://www.linkedin.com/in/stevegigou/)! I will be happy to talk with you and hear your feedbacks.
+J’ai décidé de lancer ce site pour partager mes expériences en développement. Je rencontre de nombreux problèmes chaque jour, et je pense que leur résolution pourrait intéresser d’autres personnes.
+
+Je partagerai non seulement des astuces de développement Swift, mais également sur d’autres compétences annexes au développement : la méthodologie, l’UX, le prototype, la comptabilité, la productivité…
+
+J’espère que vous trouverez sur ce site des articles qui vous intéresseront et vous permettront de vous améliorer.
+
+
+## Peut-on discuter ?
+
+Vous pouvez passer me dire bonjour sur [Twitter](https://twitter.com/SteveGigou) ou [LinkedIn](https://www.linkedin.com/in/stevegigou/) ! Je serai ravi de discuter avec vous et d’entendre vos retours.

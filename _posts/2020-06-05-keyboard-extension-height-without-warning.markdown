@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "Set a keyboard extension’s height without warnings"
+title: "Changer la hauteur d’une extension de clavier sans warnings"
 date: 2020-06-05 18:00:00 +0100
-categories: [ios]
+categories: dev
+tags: ["iOS","iOS 13","Swift","Swift 5","keyboard extension","UIKit"]
 ---
 
-If you ever tried to set the height of a custom keyboard extension with constraints, you may have seen the following warning message in your console:
+Si vous avez déjà essayé de modifier la hauteur d’un clavier personnalisé — _keyboard extension_ — avec des contraintes, vous avez dû obtenir le message d’avertissement suivant dans votre console :
 
 ```
 2020-06-05 15:38:08.839964+0200 keyboard[20168:2238601] [LayoutConstraints] Unable to simultaneously satisfy constraints.
@@ -18,7 +19,7 @@ Will attempt to recover by breaking constraint
 <NSLayoutConstraint:0x281a5cd20 UIInputView:0x105512e80.height == 250   (active)>
 ```
 
-To get this warning, I just had to set the height of the keyboard extension’s main view controller:
+Pour obtenir ce warning, il m’a suffit de définir la hauteur de mon clavier dans le contrôleur principal :
 
 ```swift
 class KeyboardViewController: UIInputViewController {
@@ -29,15 +30,17 @@ class KeyboardViewController: UIInputViewController {
 }
 ```
 
-## Why do we see this?
 
-This warning is logged because the default `KeyboardViewController`’s view translates autoresizing mask into constraints. The initial height of the frame (216 here) is converted as a constraint, and will conflict with the custom height (250).
+## Pourquoi ce message ?
 
-The main problem here is not the warning itself, but the system’s decision to remove the custom constraint — it is precisely the worst thing to do, because your value is ignored.
+Ce warning apparaît dans les logs parce que la vue par défaut de `KeyboardViewController` transforme les masques de redimensionnement en contraintes (`translatesAutoresizingMaskIntoConstraints`). La hauteur initiale de la frame (ici 216) est convertie en contrainte, qui entrera en conflit avec la hauteur personnalisée définie (ici 250).
 
-## How to fix that
+Le problème principal ici n’est pas le warning en lui-même, mais la décision du système de faire sauter notre contrainte — c’est précisément la pire chose à faire, car notre valeur est tout simplement ignorée.
 
-To remove the warning, as it is related to the autoresizing mask constraints, you only have to disable it:
+
+## Comment corriger ça ?
+
+Pour simplement supprimer le warning, vous pouvez désactiver la transformation du masque en contrainte :
 
 ```swift
 override func viewDidLoad() {
@@ -47,9 +50,9 @@ override func viewDidLoad() {
 }
 ```
 
-BUT… it is not enough. When you remove the translation into constraints, it will also remove useful constraints: the left, the bottom and the right one. The keyboard will not fill the width of the screen.
+MAIS… ce n’est pas suffisant. Lorsque vous la désactivez, cela annulera également des contraintes utiles : celles de gauche, du bas et de droite. Le clavier ne remplira plus toute la largeur de l’écran.
 
-You need to add those constraints programmatically to replace the system. The best place to do it is the `viewWillAppear` function, as it allows you to get the superview to stick your keyboard. But as it can be called several time in a single lifecycle, you need to be sure to add your constraints only once.
+Vous devez ajouter ces contraintes manuellement pour remplacer celles du système. Le meilleur endroit pour ce faire est dans `viewWillAppear`, puisqu’il vous permet d’accéder à la _superview_ pour accrocher votre clavier. Mais comme elle peut être appelée plusieurs fois dans un seul cycle de vie, il vous faut vous assurer de ne pas ajouter plusieurs fois les mêmes contraintes.
 
 ```swift
 override func viewWillAppear(_ animated: Bool) {
@@ -67,9 +70,10 @@ override func viewWillAppear(_ animated: Bool) {
 }
 ```
 
-## The whole solution
 
-Your main view controller should look like this:
+## La solution complète
+
+Votre contrôleur principal devrait ressembler à ceci :
 
 ```swift
 class KeyboardViewController: UIInputViewController {
@@ -94,4 +98,4 @@ class KeyboardViewController: UIInputViewController {
 }
 ```
 
-With this solution, you can even let the subviews set the height of the keyboard with their constraints!
+Avec cette solution, vous pouvez même laisser les _subviews_ décider de la hauteur du clavier avec leurs contraintes !

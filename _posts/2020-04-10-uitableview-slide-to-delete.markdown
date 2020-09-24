@@ -1,20 +1,21 @@
 ---
 layout: post
-title: "Add the slide to delete action on UITableView rows"
+title: "Glisser pour supprimer une ligne d’UITableView"
 date: 2020-04-10 18:00:00 +0100
-categories: [ios]
+categories: dev
+tags: ["iOS","iOS 11","Swift","Swift 5"]
 ---
 
-iOS 11.0 added a new way to manage cells swipe actions. It is now very simple to implement a _Delete_ button.
+iOS 11.0 a introduit une nouvelle manière de gérer les gestes sur les cellules. Implémenter un bouton _Supprimer_ est maintenant très simple.
 
 <img src="/assets/2020-04-10/intro.png" alt="Swipe to delete illustration" width="256">
 
 
-## Display the _Delete_ button
+## Affiche le bouton _Supprimer_
 
-The only thing you have to implement is the result of the [`tableView(_:trailingSwipeActionsConfigurationForRowAt:)`](https://developer.apple.com/documentation/uikit/uitableviewdelegate/2902367-tableview) function.
+La seule chose que vous ayez à implémenter est la fonction [`tableView(_:trailingSwipeActionsConfigurationForRowAt:)`](https://developer.apple.com/documentation/uikit/uitableviewdelegate/2902367-tableview).
 
-It returns a [`UISwipeActionsConfiguration`](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration), which is a container of [`UIContextualAction`](https://developer.apple.com/documentation/uikit/uicontextualaction).
+Elle retourne un objet `UISwipeActionsConfiguration`, qui est un conteneur de `UIContextualAction`. 
 
 ```swift
 func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -27,19 +28,19 @@ func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRow
 }
 ```
 
-Don’t forget to set `self` as a weak reference to avoid retain cycles!
+N’oubliez pas de définir la propriété `self` en `weak` afin d’éviter un cycle de rétention !
 
 
-## Perform the deletion animation
+## Jouer l’animation de suppression
 
-Now, you display a beautiful _Delete_ button, that is tappable, and which calls you. Let’s perform a deletion animation of our row!
+Vous affichez dorénavant un magnifique bouton _Supprimer_, qui est tappable et qui appelle votre code. L’étape suivante consiste à jouer une jolie animation de suppression !
 
 
-### The table view deletion animation
+### L’animation de suppression de UITableView
 
-Displaying a deletion animation for a given row is quite simple; you only have to call the table view’s [`deleteRows(at:with:)`](https://developer.apple.com/documentation/uikit/uitableview/1614960-deleterows) function. You can even [choose the animation you want](https://developer.apple.com/documentation/uikit/uitableview/rowanimation): `.fade`, `.right`, `.left`, `.top`, `.bottom`, `.none`, `.middle` or `.automatic`.
+Une animation de suppression s’implémente très simplement, puisqu’il suffit d’appeler la fonction `deleteRows(at:with:)` de votre _table view_. Vous pouvez même [choisir quelle animation jouer](https://developer.apple.com/documentation/uikit/uitableview/rowanimation): `.fade`, `.right`, `.left`, `.top`, `.bottom`, `.none`, `.middle` ou `.automatic`.
 
-The `.automatic` one is the one used by the system.
+La valeur `.automatic` est celle utilisée par défaut par le système.
 
 ```swift
 private func deleteItem(at indexPath: IndexPath) {
@@ -50,11 +51,11 @@ private func deleteItem(at indexPath: IndexPath) {
 ```
 
 
-### The data reloading
+### Recharger les données
 
-The tricky part is here. If you just reload your data, then perform the tableview updates, you will get an error telling you that the number of rows before and after the animation is the same, and that it should not (as you deleted one row, it must be `oldCount - 1`).
+La particularité arrive ici. Si vous vous contentez de recharger vos données, puis de jouer l’animation, vous obtiendrez une erreur vous informant que le nombre de lignes avant et après l’animation est le même. La table s’attend à ce que la quantité de lignes soit égale à `oldCount - 1`, puisqu’une a été supprimée.
 
-You should organize you data update like this:
+Vous devez organiser votre mise à jour de la manière suivante :
 
 ```swift
 private func deleteItem(at indexPath: IndexPath) {
@@ -70,9 +71,9 @@ private func deleteItem(at indexPath: IndexPath) {
 ```
 
 
-## Full example
+## Exemple complet
 
-Here’s the excerpt of a view controller implementing this solution.
+Voici un exemple de `UIViewController` implémentant cette solution.
 
 ```swift
 class MyViewController: UIViewController {

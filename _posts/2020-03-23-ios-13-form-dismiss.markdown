@@ -77,7 +77,7 @@ Avec ce comportement, l’utilisateur a la possibilité de sauvegarder ou annule
 
 L’implémentation est plutôt simple, donc je vais vous laisser avec cette classe commentée.
 
-Vous pouvez également trouver plus d’informations concernant la gestion de ce geste sur [cet autre article](https://sgigou.github.io/ios/2020/03/18/display-action-sheet-on-ios-13-modal-dismiss.html).
+Vous pouvez également trouver plus d’informations concernant la gestion de ce geste sur [cet autre article](https://sgigou.github.io/dev/2020/03/18/display-action-sheet-on-ios-13-modal-dismiss.html).
 
 ```swift
 import UIKit

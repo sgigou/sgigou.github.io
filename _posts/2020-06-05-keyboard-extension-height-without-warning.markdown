@@ -3,7 +3,7 @@ layout: post
 title: "Changer la hauteur d’une extension de clavier sans warnings"
 date: 2020-06-05 18:00:00 +0100
 categories: dev
-tags: ["iOS","iOS 13","Swift","Swift 5","keyboard extension"]
+tags: ["iOS","iOS 13","Swift","Swift 5","keyboard extension","UIKit"]
 ---
 
 Si vous avez déjà essayé de modifier la hauteur d’un clavier personnalisé — _keyboard extension_ — avec des contraintes, vous avez dû obtenir le message d’avertissement suivant dans votre console :

@@ -1,19 +1,21 @@
 ---
 layout: post
-title: "SwiftUI’s optional environment object"
+title: "Rendre un objet d’environnement SwiftUI optionnel"
 date: 2020-08-14 18:00:00 +0100
-categories: [ios, swiftui]
+categories: dev
+tags: ["iOS","iOS 13","Swift","Swift 5", "SwiftUI"]
 ---
 
-Allowing an environment object to be `nil` in a SwiftUI application may be powerful.
+Avoir la possibilité d’assigner `nil` à un _environment object_ en SwiftUI est très pratique.
 
-For example, let’s say that our app needs to display a log in / sign up screen. An elegant way to do it would be to inject an optional user entity into the environment, as it is a commonly used object. The landing view can then check if the user is nil to display the form.
+Par exemple, imaginons que notre application ait besoin d’afficher un écran de connexion. Un manière élégante de le réaliser serait d’injecter une propriété `user` optionnelle dans l’environnement. La vue principale de l’application pourrait alors vérifier si l’utilisateur est nul pour afficher le formulaire.
 
-## The wrapper
 
-Allowing an environment object to be nil is hard and not very effective.
+## Le _wrapper_
 
-The easiest way to perform this is to use a _wrapper entity_. It will be non-optional, but it will contain the optional entity.
+Permettre directement à un _environment object_ d’être nul est difficile et peu pratique.
+
+La manière la plus simple d’arriver à nos fins est d’utiliser un _wrapper_. Il ne sera pas optionnel, mais il contiendra notre propriété _nullable_.
 
 ```swift
 class UserWrapper {
@@ -21,19 +23,23 @@ class UserWrapper {
 }
 ```
 
-## How to inject it
 
-The wrapper injection will be performed as usual:
+## Comment l’injecter ?
+
+L’injection du _wrapper_ se fera comme d’habitude :
 
 ```swift
 let userWrapper = UserWrapper()
 userWrapper.user = // Load the user or set it to nil
 let view = LandingView().environmentObject(userWrapper)
+```
 
-How to use it in views
 
-In your views, you can now check the existence of the user entity:
+## Comment l’utiliser dans les vues ?
 
+Dans vos vues, vous pouvez dorénavant vérifier l’existence de l’entité `user` :
+
+```swift
 struct LandingView: View {
 
   @EnvironmentObject var userWrapper: UserWrapper
@@ -49,13 +55,14 @@ struct LandingView: View {
 }
 ```
 
-After the login is done, you will only have to set `userWrapper.user = loggedInUser`, and the `LandingView` will be reloaded to display the home page.
+Après que le login doit effectué, vous n’aurez qu’à assigner `userWrapper.user = loggedInUser`, et la `LandingView` sera rechargée pour afficher la page d’accueil au lieu du formulaire.
 
-On the other side, if you want to disconnect the user, you only have to set `userWrapper.user = nil` to get back to the login form.
+D’un autre côté, si vous souhaitez déconnecter l’utilisateur, vous n’avez qu’à effectuer `userWrapper.user = nil` pour afficher le formulaire de connexion à nouveau.
 
-## How to mock it
 
-You can mock your view easily, and even trigger a change after a few seconds to check the transition: 
+## Comment simuler le comportement ?
+
+Vous pouvez simuler votre vue aisément, et même déclencher une connexion / déconnexion après quelques secondes pour tester la transition :
 
 ```swift
 struct MyView_Previews: PreviewProvider {

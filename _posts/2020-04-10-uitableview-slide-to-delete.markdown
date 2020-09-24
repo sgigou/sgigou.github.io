@@ -3,7 +3,7 @@ layout: post
 title: "Glisser pour supprimer une ligne d’UITableView"
 date: 2020-04-10 18:00:00 +0100
 categories: dev
-tags: swift swift5 ios ios11
+tags: ["iOS","iOS 11","Swift","Swift 5"]
 ---
 
 iOS 11.0 a introduit une nouvelle manière de gérer les gestes sur les cellules. Implémenter un bouton _Supprimer_ est maintenant très simple.

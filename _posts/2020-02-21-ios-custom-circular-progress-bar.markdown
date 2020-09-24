@@ -3,7 +3,7 @@ layout: post
 title: "Une barre de progression circulaire en Swift"
 date: 2020-02-21 09:30:00 +0100
 categories: dev
-tags: swift swift5 ios ios13
+tags: ["iOS","iOS 13","Swift","Swift 5"]
 ---
 
 Dans ce tutoriel, nous allons créer une jolie barre de progression circulaire.

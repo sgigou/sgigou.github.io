@@ -3,7 +3,7 @@ layout: post
 title: "Gérer efficacement le dismiss des formulaires sur iOS 13"
 date: 2020-03-23 11:00:00 +0100
 categories: dev
-tags: ios ios13 swift swift5
+tags: ["iOS","iOS 13","Swift","Swift 5"]
 ---
 
 Les applications d’Apple sur iOS 13 ne suivent pas les mêmes règles en ce qui concerne l’annulation des formulaires. Je vais vous expliquer les guidelines que je suis et comment les mettre en place.

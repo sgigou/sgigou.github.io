@@ -2,7 +2,7 @@
 layout: post
 title: "Afficher une action sheet de confirmation pour rejeter une modale sur iOS 13"
 categories: dev
-tags: swift swift5 ios ios13
+tags: ["iOS","iOS 13","Swift","Swift 5"]
 ---
 
 Avec iOS 13 est apparu le geste « glisser pour rejeter » sur les modales.

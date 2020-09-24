@@ -22,7 +22,7 @@ Ce bouton a un comportement assez régulier sur les différentes apps :
 * il est désactivé jusqu’à ce qu’une modification soit apportée au formulaire,
 * quand il est pressé, les modifications sont sauvegardées et le formulaire est écarté.
 
-<img src="/assets/2020-03-23/done.png" alt="Greyed-out done button" width="256"\>
+<img src="/assets/2020-03-23/done.png" alt="Greyed-out done button" width="256">
 
 ### Le bouton _Cancel_
 
@@ -32,7 +32,7 @@ Ce bouton a un comportement plus variable :
 * il est présent dans les vieilles apps comme _Contacts_ et _Agenda_, mais il n’apparaît plus dans celles qui ont été refaites — comme _Reminders_,
 * lorsqu’il est pressé, une action sheet est affichée pour demander une confirmation à l’utilisateur — dans le cas où le formulaire a été édité.
 
-<img src="/assets/2020-03-23/cancel.png" alt="Cancel button action sheet" width="256"\>
+<img src="/assets/2020-03-23/cancel.png" alt="Cancel button action sheet" width="256">
 
 ### Le geste _swipe_
 
@@ -71,7 +71,7 @@ Le comportement que j’ai défini pour ce geste est le suivant :
 
 Avec ce comportement, l’utilisateur a la possibilité de sauvegarder ou annuler depuis le bas de l’écran — donc avec une main.
 
-<img src="/assets/2020-03-23/swipe.png" alt="Swipe action sheet" width="256"\>
+<img src="/assets/2020-03-23/swipe.png" alt="Swipe action sheet" width="256">
 
 ## Comment implémenter ce comportement
 

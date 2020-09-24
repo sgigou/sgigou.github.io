@@ -21,7 +21,7 @@ struct Human {
 ```
 
 
-### `print`
+### print
 
 ``` swift
 func print(_ items: Any..., separator: String = " ", terminator: String = "\n")
@@ -44,7 +44,8 @@ print("A second print")
 
 Pour plus d’informations, vous pouvez consulter la [documentation officielle](https://developer.apple.com/documentation/swift/1541053-print).
 
-### `debugPrint`
+### debugPrint
+
 ``` swift
 func debugPrint(_ items: Any..., separator: String = " ", terminator: String = "\n")
 ```
@@ -57,7 +58,8 @@ debugPrint(human)
 
 Pour plus d’informations, vous pouvez consulter la [documentation officielle](https://developer.apple.com/documentation/swift/1541053-print).
 
-### `dump`
+
+### dump
 ``` swift
 @discardableResult func dump<T>(_ value: T, name: String? = nil, indent: Int = 0, maxDepth: Int = .max, maxItems: Int = .max) -> T
 ```
@@ -75,7 +77,9 @@ Sortira :
 
 Pour plus d’informations, vous pouvez consulter la [documentation officielle](https://developer.apple.com/documentation/swift/1541053-print).
 
-### `NSLog`
+
+### NSLog
+
 ``` swift
 func NSLog(_ format: String, _ args: CVarArg...)
 ```
@@ -94,7 +98,8 @@ La plus grande différence avec les fonctions précédentes est que vos logs ser
 
 Pour plus d’informations, vous pouvez — essayer de — vous référer à la [documentation officielle](https://developer.apple.com/documentation/foundation/1409759-nslog).
 
-### `os_log`
+
+### os_log
 
 ``` swift
 #define os_log(log, format, ...)

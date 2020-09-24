@@ -1,13 +1,11 @@
 ---
 layout: page
-title: About
+title: Qui suis-je ?
 permalink: /about/
 ---
 
-Hi!
+Je suis un ingénieur en informatique indépendant, qui travaille actuellement sur [mes propres applications iOS](https://steve.gigou.fr).
 
-My name is Steve Gigou, and I’m a french independant computer engineer, currently focused on iOS development.
+Vous pouvez passer me dire bonjour sur [Twitter](https://twitter.com/SteveGigou) ou [LinkedIn](https://www.linkedin.com/in/stevegigou/).
 
-Feel free to say hi on [Twitter](https://twitter.com/SteveGigou) or [LinkedIn](https://www.linkedin.com/in/stevegigou/).
-
-You can also take a look at my projects on [my website](https://steve.gigou.fr).
+Vous pouvez également jeter un coup d’œil à mes projets sur [mon site Internet](https://steve.gigou.fr).
